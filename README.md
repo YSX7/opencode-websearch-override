@@ -42,7 +42,7 @@ steps below; see *Manual install* for anything else.
 **Windows (PowerShell):**
 
 ```powershell
-irm https://raw.githubusercontent.com/YOUR-USERNAME/opencode-websearch-override/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/YSX7/opencode-websearch-override/main/install.ps1 | iex
 ```
 
 > Before publishing your fork, set the `$RepoUrl` default at the top of
@@ -51,7 +51,7 @@ irm https://raw.githubusercontent.com/YOUR-USERNAME/opencode-websearch-override/
 **Linux / macOS:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR-USERNAME/opencode-websearch-override/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/YSX7/opencode-websearch-override/main/install.sh | bash
 ```
 
 With options:
@@ -66,7 +66,7 @@ curl -fsSL <raw-url>/install.sh | bash -s -- --no-autoupdate --repo-url https://
 Or from a local clone:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/opencode-websearch-override.git
+git clone https://github.com/YSX7/opencode-websearch-override.git
 cd opencode-websearch-override
 .\install.ps1            # Windows (add -NoAutoUpdate to skip the auto-update plugin)
 ./install.sh             # Linux / macOS (add --no-autoupdate)

@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-  [string]$RepoUrl = "https://github.com/YOUR-USERNAME/opencode-websearch-override.git",
+  [string]$RepoUrl = "https://github.com/YSX7/opencode-websearch-override.git",
   [switch]$NoAutoUpdate,
   [string]$TargetDir
 )

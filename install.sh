@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="https://github.com/YOUR-USERNAME/opencode-websearch-override.git"
+REPO_URL="https://github.com/YSX7/opencode-websearch-override.git"
 NO_AUTO_UPDATE=0
 TARGET_DIR=""
 
