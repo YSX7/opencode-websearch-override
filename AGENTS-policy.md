@@ -29,3 +29,8 @@ For ANY web search:
 
 Known alternative if this tool ever needs replacing:
 `sweetcornna/free-search-mcp` (Python/uv MCP, multi-engine + keyed tiers).
+
+This block is kept in sync by the auto-update plugin: on a real upstream
+update it replaces the content between the markers in place; if the markers
+are missing or duplicated, this block is left untouched (deleting them opts
+out of policy refresh).

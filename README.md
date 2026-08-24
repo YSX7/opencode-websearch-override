@@ -133,16 +133,30 @@ DDG lite + Marginalia (`public`) + SearXNG rescue:
 
 The installed plugin (`plugins/websearch-autoupdate.ts` inside your opencode
 config) checks this GitHub repo at most once every 6 hours on opencode startup.
-If `main` moved, it pulls and refreshes the tool file. Updates touch **only**
-`tools/websearch.ts` — the `AGENTS.md` policy block and the plugin itself are
-never overwritten, so re-run the installer manually if those change upstream.
-Your `websearch.json` lives outside the repo directory and is never touched by
-updates.
+Checks that come back clean touch nothing; only when `main` actually moved does
+it pull and sync three things:
+
+1. **The tool** — `tools/websearch.ts`.
+2. **The agent policy** — the marker-guarded block in your `AGENTS.md`
+   (`<!-- opencode-websearch-override:start -->` … `:end`) is replaced in place
+   with the upstream `AGENTS-policy.md`. The block's position doesn't matter,
+   but it must be a single intact marker pair (missing or duplicated markers =
+   skipped silently). Content between the markers is updater-owned and gets
+   overwritten; everything outside them is preserved verbatim. Deleting the
+   markers opts out of policy refresh permanently — re-run the installer to
+   restore the block.
+3. **The plugin itself** — written atomically (temp file + rename), so a crash
+   mid-update can't leave a broken plugin. A new plugin version activates on
+   the next opencode restart.
+
+Nothing else is touched: `websearch.json`, other config-dir files, and any
+repo files outside those three paths are never modified. If upstream renames
+or adds installable components, re-run the installer once to pick them up.
 
 Disable by deleting `~/.config/opencode/plugins/websearch-autoupdate.ts` or
 installing with `-NoAutoUpdate`.
 
-Manual update any time: re-run `install.ps1`.
+Manual update any time: re-run `install.ps1` / `install.sh`.
 
 ## Usage
 
