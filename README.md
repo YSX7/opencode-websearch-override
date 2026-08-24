@@ -82,12 +82,19 @@ The installer:
    doesn't already exist**
 5. Installs the auto-update plugin (unless `-NoAutoUpdate`)
 
-Then finish manually:
+Then finish manually — edit the keys file with any text editor:
+
+```bash
+# Linux / macOS
+nano ~/.config/opencode/websearch.json
+```
 
 ```powershell
+# Windows
 notepad "$env:USERPROFILE\.config\opencode\websearch.json"
-# paste your serper / tavily keys, keep "" to disable a tier
 ```
+
+Paste your serper / tavily keys, keep `""` to disable a tier.
 
 Restart opencode and ask your agent to search something.
 
