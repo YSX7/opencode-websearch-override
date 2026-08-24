@@ -34,10 +34,12 @@ tiers.
 
 ## Install
 
-Prerequisites: [opencode](https://opencode.ai), git, PowerShell (Windows) —
-see *Manual install* below for other platforms.
+Prerequisites: [opencode](https://opencode.ai) and git. Platform-specific
+steps below; see *Manual install* for anything else.
 
 ### One command
+
+**Windows (PowerShell):**
 
 ```powershell
 irm https://raw.githubusercontent.com/YOUR-USERNAME/opencode-websearch-override/main/install.ps1 | iex
@@ -46,12 +48,28 @@ irm https://raw.githubusercontent.com/YOUR-USERNAME/opencode-websearch-override/
 > Before publishing your fork, set the `$RepoUrl` default at the top of
 > `install.ps1` to your actual repo URL so this one-liner works.
 
+**Linux / macOS:**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/YOUR-USERNAME/opencode-websearch-override/main/install.sh | bash
+```
+
+With options:
+
+```bash
+curl -fsSL <raw-url>/install.sh | bash -s -- --no-autoupdate --repo-url https://github.com/you/opencode-websearch-override.git
+```
+
+> Same as above: set the `REPO_URL` default at the top of `install.sh` to your
+> repo URL before publishing so the bare one-liner works.
+
 Or from a local clone:
 
-```powershell
+```bash
 git clone https://github.com/YOUR-USERNAME/opencode-websearch-override.git
 cd opencode-websearch-override
-.\install.ps1            # add -NoAutoUpdate to skip the auto-update plugin
+.\install.ps1            # Windows (add -NoAutoUpdate to skip the auto-update plugin)
+./install.sh             # Linux / macOS (add --no-autoupdate)
 ```
 
 The installer:
@@ -94,7 +112,9 @@ Manual update any time: re-run `install.ps1`.
 
 ## Manual install (any platform)
 
-Copy three things into opencode's global config dir (`~/.config/opencode`):
+Copy three things into opencode's global config dir
+(`%USERPROFILE%\.config\opencode` on Windows, `~/.config/opencode` on Linux/macOS,
+respecting `XDG_CONFIG_HOME`):
 
 1. `tools/websearch.ts` ← `tools/websearch.ts`
 2. `websearch.json` ← edit from `websearch.example.json`
@@ -105,6 +125,15 @@ Copy three things into opencode's global config dir (`~/.config/opencode`):
 Delete `tools/websearch.ts`, `plugins/websearch-autoupdate.ts`,
 `websearch-override/`, the marker-guarded block in `AGENTS.md`, and optionally
 `websearch.json`. The native `websearch` tool comes back automatically.
+
+## Linux notes
+
+- Config dir follows XDG: `${XDG_CONFIG_HOME:-~/.config}/opencode` — same
+  layout opencode uses natively on Linux.
+- The tool and auto-update plugin are pure TypeScript running inside
+  opencode's bundled Bun runtime; nothing platform-specific beyond the
+  installer scripts.
+- `install.sh` needs only bash + git + coreutils (present by default on Mint).
 
 ## Caveats
 
