@@ -85,6 +85,11 @@ cd opencode-websearch-override
 ./install.sh             # Linux / macOS (add --no-autoupdate)
 ```
 
+> **Testing status:** `install.ps1` is the battle-tested path. `install.sh`
+> should behave identically, but it has not been run on a real Linux/macOS
+> system yet — everything so far was exercised on Windows. If it misbehaves
+> on your distro, please open an issue.
+
 The installer:
 
 1. Clones/pulls itself into `~/.config/opencode/websearch-override/`
@@ -195,6 +200,10 @@ Delete `tools/websearch.ts`, `plugins/websearch-autoupdate.ts`,
   opencode's bundled Bun runtime; nothing platform-specific beyond the
   installer scripts.
 - `install.sh` needs only bash + git + coreutils (present by default on Mint).
+- **Untested on native Linux/macOS so far:** the tool and plugin themselves
+  are platform-independent TypeScript, but `install.sh`, the install flow,
+  and auto-update have only been exercised on Windows (plus an MSYS/Git-Bash
+  dry-run of the script). Verify on your distro before trusting it.
 
 ## Caveats
 
