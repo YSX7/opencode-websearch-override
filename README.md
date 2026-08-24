@@ -56,9 +56,6 @@ steps below; see *Manual install* for anything else.
 irm https://raw.githubusercontent.com/YSX7/opencode-websearch-override/main/install.ps1 | iex
 ```
 
-> Before publishing your fork, set the `$RepoUrl` default at the top of
-> `install.ps1` to your actual repo URL so this one-liner works.
-
 **Linux / macOS:**
 
 ```bash
@@ -68,11 +65,16 @@ curl -fsSL https://raw.githubusercontent.com/YSX7/opencode-websearch-override/ma
 With options:
 
 ```bash
-curl -fsSL <raw-url>/install.sh | bash -s -- --no-autoupdate --repo-url https://github.com/you/opencode-websearch-override.git
+curl -fsSL https://raw.githubusercontent.com/YSX7/opencode-websearch-override/main/install.sh | bash -s -- --no-autoupdate
 ```
 
-> Same as above: set the `REPO_URL` default at the top of `install.sh` to your
-> repo URL before publishing so the bare one-liner works.
+Both installers accept the same options (PowerShell / bash):
+
+| Option | Effect |
+|---|---|
+| `-NoAutoUpdate` / `--no-autoupdate` | skip the auto-update plugin (removes it if already installed) |
+| `-RepoUrl <url>` / `--repo-url <url>` | clone from a different repo |
+| `-TargetDir <dir>` / `--target-dir <dir>` | override the opencode config directory |
 
 Or from a local clone:
 
@@ -105,7 +107,9 @@ nano ~/.config/opencode/websearch.json
 notepad "$env:USERPROFILE\.config\opencode\websearch.json"
 ```
 
-Paste your serper / tavily keys, keep `""` to disable a tier.
+Paste your API keys into the matching fields (`serper`, `tavily`, `serpapi`,
+`brave`, `anysearch`, `marginalia`) — keep `""` to disable a tier. Keys can
+also be supplied as environment variables instead of the file.
 
 Restart opencode and ask your agent to search something.
 
@@ -129,27 +133,43 @@ DDG lite + Marginalia (`public`) + SearXNG rescue:
 
 The installed plugin (`plugins/websearch-autoupdate.ts` inside your opencode
 config) checks this GitHub repo at most once every 6 hours on opencode startup.
-If `main` moved, it pulls and refreshes the tool file. Your `websearch.json`
-lives outside the repo directory and is never touched by updates.
+If `main` moved, it pulls and refreshes the tool file. Updates touch **only**
+`tools/websearch.ts` — the `AGENTS.md` policy block and the plugin itself are
+never overwritten, so re-run the installer manually if those change upstream.
+Your `websearch.json` lives outside the repo directory and is never touched by
+updates.
 
 Disable by deleting `~/.config/opencode/plugins/websearch-autoupdate.ts` or
 installing with `-NoAutoUpdate`.
 
 Manual update any time: re-run `install.ps1`.
 
+## Usage
+
+Nothing to invoke by hand — your agent calls the `websearch` tool like the
+built-in one:
+
+- args: `query` (required) and `count` (optional, 1–20 results, default 8)
+- returns a numbered title/URL/snippet list, tagged with the backend that
+  answered (`backend: serper`, `backend: bing`, …)
+- if every backend fails, the reply contains a ready-made `webfetch` fallback
+  URL for Bing that the agent can read directly
+
 ## Manual install (any platform)
 
-Copy three things into opencode's global config dir
+Copy these into opencode's global config dir
 (`%USERPROFILE%\.config\opencode` on Windows, `~/.config/opencode` on Linux/macOS,
 respecting `XDG_CONFIG_HOME`):
 
 1. `tools/websearch.ts` ← `tools/websearch.ts`
 2. `websearch.json` ← edit from `websearch.example.json`
 3. Content of `AGENTS-policy.md` → append to your `AGENTS.md`
+4. Optional: `plugins/websearch-autoupdate.ts` → your `plugins/` directory
 
 ## Uninstall
 
 Delete `tools/websearch.ts`, `plugins/websearch-autoupdate.ts`,
+`.websearch-autoupdate.json` (the plugin's check-timestamp file),
 `websearch-override/`, the marker-guarded block in `AGENTS.md`, and optionally
 `websearch.json`. The native `websearch` tool comes back automatically.
 
