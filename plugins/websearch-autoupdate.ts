@@ -101,10 +101,6 @@ async function checkForUpdate(): Promise<void> {
   } catch {}
 }
 
-export async function runUpdateCheck(): Promise<void> {
-  await checkForUpdate()
-}
-
 const timer = setTimeout(() => {
   checkForUpdate().catch(() => {})
 }, 5000)
