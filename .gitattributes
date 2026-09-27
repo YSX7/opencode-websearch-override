@@ -1,0 +1,4 @@
+# The policy file is spliced verbatim into ~/.config/opencode/AGENTS.md by
+# websearch-autoupdate.ts. Keep it LF so the global instructions file does not
+# drift into mixed line endings on checkout under core.autocrlf=true.
+AGENTS-policy.md text eol=lf
